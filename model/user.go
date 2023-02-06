@@ -34,7 +34,7 @@ type (
 
 	UserRequestLogin struct {
 		Username string
-		// Password string
+		Password string
 	}
 )
 
