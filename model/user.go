@@ -44,6 +44,7 @@ func (UserModel) TableName() string {
 
 func (user *UserModel) BeforeCreate(db *gorm.DB) error {
 	user.CreatedAt = time.Now()
+	user.UpdatedAt = time.Now()
 	return nil
 }
 

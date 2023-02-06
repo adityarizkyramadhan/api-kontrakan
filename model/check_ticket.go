@@ -26,6 +26,7 @@ func (CheckTicketModel) TableName() string {
 
 func (checkTicket *CheckTicketModel) BeforeCreate(db *gorm.DB) error {
 	checkTicket.CreatedAt = time.Now()
+	checkTicket.UpdatedAt = time.Now()
 	return nil
 }
 

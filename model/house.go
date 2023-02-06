@@ -24,6 +24,7 @@ func (HouseModel) TableName() string {
 
 func (house *HouseModel) BeforeCreate(db *gorm.DB) error {
 	house.CreatedAt = time.Now()
+	house.UpdatedAt = time.Now()
 	return nil
 }
 
