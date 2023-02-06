@@ -16,13 +16,14 @@ func NewUserModel(ur UserRequestRegister) *UserModel {
 
 type (
 	UserModel struct {
-		ID        uint `gorm:"primaryKey;autoIncrement"`
-		CreatedAt time.Time
-		UpdatedAt time.Time
-		DeletedAt gorm.DeletedAt `gorm:"index"`
-		Fullname  string
-		Username  string
-		Password  string
+		ID           uint `gorm:"primaryKey;autoIncrement"`
+		CreatedAt    time.Time
+		UpdatedAt    time.Time
+		DeletedAt    gorm.DeletedAt `gorm:"index"`
+		Fullname     string
+		Username     string
+		Password     string
+		CheckTickets []CheckTicketModel `gorm:"foreignkey:IdUser"`
 	}
 
 	UserRequestRegister struct {

@@ -14,9 +14,9 @@ type (
 		DeletedAt  gorm.DeletedAt `gorm:"index"`
 		IdUser     uint
 		IdRumah    uint
-		IsCheckOut bool
-		User       UserModel
-		House      HouseModel
+		IsCheckOut bool       `gorm:"default:'false'"`
+		User       UserModel  `gorm:"foreignkey:IdUser;association_foreignkey:ID"`
+		House      HouseModel `gorm:"foreignkey:IdHouse;association_foreignkey:ID"`
 	}
 )
 
