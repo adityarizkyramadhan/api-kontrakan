@@ -1,6 +1,7 @@
 package config
 
 import (
+	"api-kontrakan/model"
 	"fmt"
 
 	"gorm.io/driver/postgres"
@@ -18,7 +19,7 @@ func MakeConnectionDatabase(data Database) (*gorm.DB, error) {
 	if err != nil {
 		return nil, err
 	}
-	if err := db.AutoMigrate(); err != nil {
+	if err := db.AutoMigrate(new(model.UserModel), new(model.HouseModel), new(model.CheckTicketModel)); err != nil {
 		return nil, err
 	}
 	return db, nil
