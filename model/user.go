@@ -21,7 +21,7 @@ type (
 		UpdatedAt    time.Time
 		DeletedAt    gorm.DeletedAt `gorm:"index"`
 		Fullname     string
-		Username     string
+		Username     string `gorm:"unique"`
 		Password     string
 		CheckTickets []CheckTicketModel `gorm:"foreignkey:IdUser"`
 	}
