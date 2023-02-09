@@ -6,6 +6,8 @@ import (
 	"api-kontrakan/repository"
 	"api-kontrakan/utils"
 	"context"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type UserUsecase struct {
@@ -17,12 +19,16 @@ func NewUserusecase(ur repository.UserRepositoryImplementation) *UserUsecase {
 }
 
 func (uc *UserUsecase) Register(ctx context.Context, input *model.UserRequestRegister) (string, error) {
+	hashPassword, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.MaxCost)
+	if err != nil {
+		return "", err
+	}
 	user := &model.UserModel{
 		Fullname: input.Fullname,
-		Password: input.Password,
+		Password: string(hashPassword),
 		Username: input.Username,
 	}
-	err := uc.ur.Create(ctx, user)
+	err = uc.ur.Create(ctx, user)
 	if err != nil {
 		return "", err
 	}
@@ -45,4 +51,21 @@ func (uc *UserUsecase) SearchByUsername(ctx context.Context, username string) (*
 		return nil, utils.ErrUsername
 	}
 	return uc.SearchByUsername(ctx, username)
+}
+
+func (uc *UserUsecase) Login(ctx context.Context, input *model.UserRequestLogin) (string, error) {
+	user, err := uc.SearchByUsername(ctx, input.Username)
+	if err != nil {
+		return "", err
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password))
+	if err != nil {
+		return "", err
+	}
+	token, err := middleware.GenerateJWToken(user.ID)
+	if err != nil {
+		return "", err
+	}
+	return token, nil
 }
