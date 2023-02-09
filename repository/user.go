@@ -7,15 +7,23 @@ import (
 	"gorm.io/gorm"
 )
 
-type UserRepository struct {
-	db *gorm.DB
-}
+type (
+	UserRepository struct {
+		db *gorm.DB
+	}
+	UserRepositoryImplementation interface {
+		Create(ctx context.Context, user *model.UserModel) error
+		SearchByUsername(ctx context.Context, username string) (*model.UserModel, error)
+		SearchByID(ctx context.Context, id uint) (*model.UserModel, error)
+	}
+)
 
-func NewUserRepository(db *gorm.DB) *UserRepository {
+func NewUserRepository(db *gorm.DB) UserRepositoryImplementation {
 	return &UserRepository{db: db}
 }
 
 func (ur *UserRepository) Create(ctx context.Context, user *model.UserModel) error {
+	user.BeforeCreate(ur.db)
 	return ur.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
 		return tx.Create(user).Error
 	})

@@ -7,11 +7,17 @@ import (
 	"gorm.io/gorm"
 )
 
-type HouseRepository struct {
-	db *gorm.DB
-}
+type (
+	HouseRepository struct {
+		db *gorm.DB
+	}
+	HouseRepositoryImplementation interface {
+		Create(ctx context.Context, house *model.HouseModel) error
+		FindById(ctx context.Context, id uint) (*model.HouseModel, error)
+	}
+)
 
-func NewHouseRepository(db *gorm.DB) *HouseRepository {
+func NewHouseRepository(db *gorm.DB) HouseRepositoryImplementation {
 	return &HouseRepository{db: db}
 }
 
