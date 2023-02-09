@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 
 	"api-kontrakan/utils"
 
@@ -13,7 +14,8 @@ import (
 
 func GenerateJWToken(id uint) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"id": id,
+		"id":  id,
+		"exp": time.Now().Add(3 * 24 * time.Hour).Unix(),
 	})
 	signedToken, err := token.SignedString([]byte(os.Getenv("SECRET_KEY")))
 	if err != nil {
