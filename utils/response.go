@@ -1,9 +1,9 @@
 package utils
 
 type Response struct {
-	Success bool        `json:"success"`
-	Message string      `json:"message"`
-	Body    interface{} `json:"body"`
+	Success bool
+	Message string
+	Body    interface{}
 }
 
 func ResponseWhenFail(message string) Response {
