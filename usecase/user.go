@@ -15,7 +15,7 @@ func NewUserusecase(ur repository.UserRepositoryImplementation) *UserUsecase {
 	return &UserUsecase{ur: ur}
 }
 
-func (uc *UserUsecase) Register(ctx context.Context, input model.UserRequestRegister) (string, error) {
+func (uc *UserUsecase) Register(ctx context.Context, input *model.UserRequestRegister) (string, error) {
 	user := &model.UserModel{
 		Fullname: input.Fullname,
 		Password: input.Password,
