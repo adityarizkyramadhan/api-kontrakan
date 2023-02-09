@@ -4,6 +4,7 @@ import (
 	"api-kontrakan/middleware"
 	"api-kontrakan/model"
 	"api-kontrakan/repository"
+	"api-kontrakan/utils"
 	"context"
 )
 
@@ -30,4 +31,18 @@ func (uc *UserUsecase) Register(ctx context.Context, input *model.UserRequestReg
 		return "", err
 	}
 	return token, nil
+}
+
+func (uc *UserUsecase) SearchByID(ctx context.Context, id int) (*model.UserModel, error) {
+	if id <= 0 {
+		return nil, utils.ErrId
+	}
+	return uc.ur.SearchByID(ctx, uint(id))
+}
+
+func (uc *UserUsecase) SearchByUsername(ctx context.Context, username string) (*model.UserModel, error) {
+	if username == "" {
+		return nil, utils.ErrUsername
+	}
+	return uc.SearchByUsername(ctx, username)
 }
