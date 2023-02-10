@@ -14,7 +14,7 @@ type (
 	}
 
 	HouseRequestCreate struct {
-		NamaAlamat  string `json:"NamaAlamat"`
+		NamaAlamat  string
 		NamaSebutan string
 		Deskripsi   string
 	}

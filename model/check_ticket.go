@@ -14,6 +14,12 @@ type (
 		User       UserModel  `gorm:"foreignkey:IdUser;association_foreignkey:ID"`
 		House      HouseModel `gorm:"foreignkey:IdHouse;association_foreignkey:ID"`
 	}
+
+	CheckTicketRequest struct {
+		IdUser    uint
+		IdHouse   uint
+		Deskripsi string
+	}
 )
 
 func (CheckTicketModel) TableName() string {
