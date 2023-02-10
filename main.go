@@ -5,6 +5,7 @@ import (
 	"api-kontrakan/controller"
 	"api-kontrakan/repository"
 	"api-kontrakan/usecase"
+	"api-kontrakan/utils"
 	"fmt"
 	"os"
 
@@ -27,6 +28,9 @@ func main() {
 		panic(err.Error())
 	}
 	r := gin.Default()
+	r.GET("health", func(c *gin.Context) {
+		c.JSON(200, utils.ResponseWhenSuccess("success", "health 100%"))
+	})
 	//user
 	repoUser := repository.NewUserRepository(db)
 	usecaseUser := usecase.NewUserusecase(repoUser)

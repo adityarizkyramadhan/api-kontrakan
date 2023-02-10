@@ -1,0 +1,38 @@
+name: Deploy Api Kontrakan Backend
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+jobs:
+  web-deploy:
+    if: "contains(github.event.head_commit.message, 'DEPLOY')"
+    name: 🎉 Deploy Api Kontrakan Backend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v2
+
+      - name: 📁 Send files via Rsync
+        uses: Burnett01/rsync-deployments@5.2.1
+        with:
+            switches: -avzr
+            path: .
+            remote_path: /home/adityaariiizkyyy/api-kontrakan
+            remote_host: ${{ secrets.SSH_HOST }}
+            remote_user: ${{ secrets.SSH_USERNAME }}
+            remote_key: ${{ secrets.SSH_KEY }}
+
+      - name: 🌟 Run server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /home/adityaariiizkyyy/api-kontrakan
+            sudo docker container stop -f kontrakan-container || true
+            sudo docker container rm -f kontrakan-container || true
+            sudo docker build -t api-kontrakan .
+            sudo docker create --name kontrakan-container -p 8090:8080 --cpus 1 --memory=40m api-kontrakan
+            sudo docker container start kontrakan-container
