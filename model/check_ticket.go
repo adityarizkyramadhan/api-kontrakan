@@ -13,8 +13,8 @@ type (
 		UpdatedAt  time.Time
 		DeletedAt  gorm.DeletedAt `gorm:"index"`
 		IdUser     uint
-		IdRumah    uint
-		IsCheckOut bool `gorm:"default:'false'"`
+		IdHouse    uint
+		IsCheckOut bool `gorm:"default:false"`
 		Deskripsi  string
 		User       UserModel  `gorm:"foreignkey:IdUser;association_foreignkey:ID"`
 		House      HouseModel `gorm:"foreignkey:IdHouse;association_foreignkey:ID"`

@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func MakeConnectionDatabase(data Database) (*gorm.DB, error) {
+func MakeConnectionDatabase(data *Database) (*gorm.DB, error) {
 	dsn := fmt.Sprintf("user=%s "+
 		"password=%s "+
 		"host=%s "+
@@ -19,7 +19,7 @@ func MakeConnectionDatabase(data Database) (*gorm.DB, error) {
 	if err != nil {
 		return nil, err
 	}
-	if err := db.AutoMigrate(new(model.UserModel), new(model.HouseModel), new(model.CheckTicketModel)); err != nil {
+	if err := db.AutoMigrate(&model.CheckTicketModel{}, &model.HouseModel{}, &model.UserModel{}); err != nil {
 		return nil, err
 	}
 	return db, nil

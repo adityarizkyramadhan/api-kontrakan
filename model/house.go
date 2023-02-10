@@ -14,7 +14,14 @@ type (
 		DeletedAt    gorm.DeletedAt `gorm:"index"`
 		NamaAlamat   string
 		NamaSebutan  string
+		Deskripsi    string
 		CheckTickets []CheckTicketModel `gorm:"foreignkey:IdHouse"`
+	}
+
+	HouseRequestCreate struct {
+		NamaAlamat  string
+		NamaSebutan string
+		Deskripsi   string
 	}
 )
 
