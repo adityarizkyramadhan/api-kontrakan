@@ -29,7 +29,7 @@ func main() {
 	}
 	r := gin.Default()
 	r.GET("health", func(c *gin.Context) {
-		c.JSON(200, utils.ResponseWhenSuccess("success", "health 100%"))
+		c.JSON(200, utils.ResponseWhenSuccess("success", "deploy health 100%"))
 	})
 	//user
 	repoUser := repository.NewUserRepository(db)
