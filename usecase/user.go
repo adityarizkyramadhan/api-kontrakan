@@ -19,7 +19,7 @@ func NewUserusecase(ur repository.UserRepositoryImplementation) *UserUsecase {
 }
 
 func (uc *UserUsecase) Register(ctx context.Context, input *model.UserRequestRegister) (string, error) {
-	hashPassword, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.MaxCost)
+	hashPassword, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return "", err
 	}
@@ -50,7 +50,7 @@ func (uc *UserUsecase) SearchByUsername(ctx context.Context, username string) (*
 	if username == "" {
 		return nil, utils.ErrUsername
 	}
-	return uc.SearchByUsername(ctx, username)
+	return uc.ur.SearchByUsername(ctx, username)
 }
 
 func (uc *UserUsecase) Login(ctx context.Context, input *model.UserRequestLogin) (string, error) {

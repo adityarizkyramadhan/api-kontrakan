@@ -1,17 +1,12 @@
 package model
 
 import (
-	"time"
-
 	"gorm.io/gorm"
 )
 
 type (
 	CheckTicketModel struct {
-		ID         uint `gorm:"primaryKey;autoIncrement"`
-		CreatedAt  time.Time
-		UpdatedAt  time.Time
-		DeletedAt  gorm.DeletedAt `gorm:"index"`
+		gorm.Model
 		IdUser     uint
 		IdHouse    uint
 		IsCheckOut bool `gorm:"default:false"`
@@ -23,15 +18,4 @@ type (
 
 func (CheckTicketModel) TableName() string {
 	return "check_ticket"
-}
-
-func (checkTicket *CheckTicketModel) BeforeCreate(db *gorm.DB) error {
-	checkTicket.CreatedAt = time.Now()
-	checkTicket.UpdatedAt = time.Now()
-	return nil
-}
-
-func (checkTicket *CheckTicketModel) BeforeUpdate(db *gorm.DB) error {
-	checkTicket.UpdatedAt = time.Now()
-	return nil
 }

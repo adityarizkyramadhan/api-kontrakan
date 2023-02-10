@@ -23,7 +23,6 @@ func NewUserRepository(db *gorm.DB) UserRepositoryImplementation {
 }
 
 func (ur *UserRepository) Create(ctx context.Context, user *model.UserModel) error {
-	user.BeforeCreate(ur.db)
 	return ur.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
 		return tx.Create(user).Error
 	})

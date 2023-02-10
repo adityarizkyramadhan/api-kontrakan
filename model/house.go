@@ -1,17 +1,12 @@
 package model
 
 import (
-	"time"
-
 	"gorm.io/gorm"
 )
 
 type (
 	HouseModel struct {
-		ID           uint `gorm:"primaryKey;autoIncrement"`
-		CreatedAt    time.Time
-		UpdatedAt    time.Time
-		DeletedAt    gorm.DeletedAt `gorm:"index"`
+		gorm.Model
 		NamaAlamat   string
 		NamaSebutan  string
 		Deskripsi    string
@@ -19,7 +14,7 @@ type (
 	}
 
 	HouseRequestCreate struct {
-		NamaAlamat  string
+		NamaAlamat  string `json:"NamaAlamat"`
 		NamaSebutan string
 		Deskripsi   string
 	}
@@ -27,15 +22,4 @@ type (
 
 func (HouseModel) TableName() string {
 	return "house_model"
-}
-
-func (house *HouseModel) BeforeCreate(db *gorm.DB) error {
-	house.CreatedAt = time.Now()
-	house.UpdatedAt = time.Now()
-	return nil
-}
-
-func (house *HouseModel) BeforeUpdate(db *gorm.DB) error {
-	house.UpdatedAt = time.Now()
-	return nil
 }

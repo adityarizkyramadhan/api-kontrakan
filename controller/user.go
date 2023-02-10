@@ -4,7 +4,9 @@ import (
 	"api-kontrakan/model"
 	"api-kontrakan/usecase"
 	"api-kontrakan/utils"
+	"context"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,18 +22,17 @@ func NewUserController(uu *usecase.UserUsecase) *UserController {
 }
 
 func (uc *UserController) Register(c *gin.Context) {
-	ctx := c.Request.Context()
-	userInput := new(model.UserRequestRegister)
-	if err := c.BindJSON(userInput); err != nil {
+	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Second*5)
+	defer cancel()
+
+	c.Request = c.Request.WithContext(ctx)
+
+	userInput := model.UserRequestRegister{}
+	if err := c.Bind(&userInput); err != nil {
 		c.JSON(http.StatusUnprocessableEntity, utils.ResponseWhenFail(err.Error()))
 		return
 	}
-	data, err := uc.uu.SearchByUsername(ctx, userInput.Username)
-	if err == nil && data != nil {
-		c.JSON(http.StatusBadRequest, utils.ResponseWhenFail(utils.ErrUniqueUsername.Error()))
-		return
-	}
-	token, err := uc.uu.Register(ctx, userInput)
+	token, err := uc.uu.Register(ctx, &userInput)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, utils.ResponseWhenFail(err.Error()))
 		return
@@ -40,18 +41,17 @@ func (uc *UserController) Register(c *gin.Context) {
 }
 
 func (uc *UserController) Login(c *gin.Context) {
-	ctx := c.Request.Context()
-	userInput := new(model.UserRequestLogin)
-	if err := c.BindJSON(userInput); err != nil {
+	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Second*5)
+	defer cancel()
+
+	c.Request = c.Request.WithContext(ctx)
+
+	userInput := model.UserRequestLogin{}
+	if err := c.Bind(&userInput); err != nil {
 		c.JSON(http.StatusUnprocessableEntity, utils.ResponseWhenFail(err.Error()))
 		return
 	}
-	_, err := uc.uu.SearchByUsername(ctx, userInput.Username)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, utils.ResponseWhenFail(err.Error()))
-		return
-	}
-	token, err := uc.uu.Login(ctx, userInput)
+	token, err := uc.uu.Login(ctx, &userInput)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, utils.ResponseWhenFail(err.Error()))
 		return

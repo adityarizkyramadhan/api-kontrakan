@@ -1,8 +1,6 @@
 package model
 
 import (
-	"time"
-
 	"gorm.io/gorm"
 )
 
@@ -16,10 +14,7 @@ func NewUserModel(ur UserRequestRegister) *UserModel {
 
 type (
 	UserModel struct {
-		ID           uint `gorm:"primaryKey;autoIncrement"`
-		CreatedAt    time.Time
-		UpdatedAt    time.Time
-		DeletedAt    gorm.DeletedAt `gorm:"index"`
+		gorm.Model
 		Fullname     string
 		Username     string `gorm:"unique"`
 		Password     string
@@ -27,9 +22,9 @@ type (
 	}
 
 	UserRequestRegister struct {
-		Fullname string
-		Username string
-		Password string
+		Fullname string `json:"Fullname"`
+		Username string `json:"Username"`
+		Password string `json:"Password"`
 	}
 
 	UserRequestLogin struct {
@@ -40,15 +35,4 @@ type (
 
 func (UserModel) TableName() string {
 	return "user_model"
-}
-
-func (user *UserModel) BeforeCreate(db *gorm.DB) error {
-	user.CreatedAt = time.Now()
-	user.UpdatedAt = time.Now()
-	return nil
-}
-
-func (user *UserModel) BeforeUpdate(db *gorm.DB) error {
-	user.UpdatedAt = time.Now()
-	return nil
 }

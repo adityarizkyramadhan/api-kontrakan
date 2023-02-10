@@ -3,6 +3,7 @@ package main
 import (
 	"api-kontrakan/config"
 	"api-kontrakan/controller"
+	"api-kontrakan/middleware"
 	"api-kontrakan/repository"
 	"api-kontrakan/usecase"
 	"api-kontrakan/utils"
@@ -28,6 +29,7 @@ func main() {
 		panic(err.Error())
 	}
 	r := gin.Default()
+	r.Use(middleware.TimeoutMiddleware())
 	r.GET("health", func(c *gin.Context) {
 		c.JSON(200, utils.ResponseWhenSuccess("success", "deploy health 100%"))
 	})

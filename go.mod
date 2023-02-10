@@ -10,6 +10,8 @@ require (
 	gorm.io/gorm v1.24.5
 )
 
+require github.com/gin-contrib/timeout v0.0.3 // indirect
+
 require (
 	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
