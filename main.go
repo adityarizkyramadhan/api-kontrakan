@@ -33,6 +33,7 @@ func main() {
 	r.GET("health", func(c *gin.Context) {
 		c.JSON(200, utils.ResponseWhenSuccess("success", "deploy health 100%"))
 	})
+
 	//user
 	repoUser := repository.NewUserRepository(db)
 	usecaseUser := usecase.NewUserusecase(repoUser)

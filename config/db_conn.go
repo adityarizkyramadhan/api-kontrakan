@@ -19,7 +19,7 @@ func MakeConnectionDatabase(data *Database) (*gorm.DB, error) {
 	if err != nil {
 		return nil, err
 	}
-	if err := db.AutoMigrate(&model.CheckTicketModel{}, &model.HouseModel{}, &model.UserModel{}); err != nil {
+	if err := db.AutoMigrate(&model.CheckTicketModel{}, &model.HouseModel{}, &model.UserModel{}, &model.UserHouseModel{}); err != nil {
 		return nil, err
 	}
 	return db, nil

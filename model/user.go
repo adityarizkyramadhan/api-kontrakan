@@ -19,6 +19,7 @@ type (
 		Username     string `gorm:"unique"`
 		Password     string
 		CheckTickets []CheckTicketModel `gorm:"foreignkey:IdUser"`
+		Houses       []HouseModel       `gorm:"many2many:user_houses;"`
 	}
 
 	UserRequestRegister struct {

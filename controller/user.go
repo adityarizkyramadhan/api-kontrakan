@@ -35,6 +35,10 @@ func (uc *UserController) Register(c *gin.Context) {
 	}
 	token, err := uc.uu.Register(ctx, &userInput)
 	if err != nil {
+		if err.Error() == utils.ErrUniqueUsername.Error() {
+			c.JSON(http.StatusBadRequest, utils.ResponseWhenFail(err.Error()))
+			return
+		}
 		c.JSON(http.StatusInternalServerError, utils.ResponseWhenFail(err.Error()))
 		return
 	}
