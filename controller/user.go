@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"api-kontrakan/middleware"
 	"api-kontrakan/model"
 	"api-kontrakan/usecase"
 	"api-kontrakan/utils"
@@ -56,10 +57,29 @@ func (uc *UserController) Login(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, utils.ResponseWhenFail(err.Error()))
 		return
 	}
-	c.JSON(http.StatusCreated, utils.ResponseWhenSuccess("success login user", gin.H{"Token": token}))
+	c.JSON(http.StatusOK, utils.ResponseWhenSuccess("success login user", gin.H{"Token": token}))
+}
+
+func (uc *UserController) GetById(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Second*5)
+	defer cancel()
+
+	c.Request = c.Request.WithContext(ctx)
+
+	id := c.MustGet("id").(uint)
+
+	user, err := uc.uu.SearchByID(ctx, id)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, utils.ResponseWhenFail(err.Error()))
+		return
+	}
+
+	c.JSON(http.StatusOK, utils.ResponseWhenSuccess("success get user", user))
 }
 
 func (uc *UserController) Mount(rg *gin.RouterGroup) {
 	rg.POST("login", uc.Login)
 	rg.POST("register", uc.Register)
+	rg.GET("profile", middleware.ValidateJWToken(), uc.GetById)
 }

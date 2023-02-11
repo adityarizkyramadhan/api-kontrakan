@@ -39,11 +39,11 @@ func (uc *UserUsecase) Register(ctx context.Context, input *model.UserRequestReg
 	return token, nil
 }
 
-func (uc *UserUsecase) SearchByID(ctx context.Context, id int) (*model.UserModel, error) {
+func (uc *UserUsecase) SearchByID(ctx context.Context, id uint) (*model.UserModel, error) {
 	if id <= 0 {
 		return nil, utils.ErrId
 	}
-	return uc.ur.SearchByID(ctx, uint(id))
+	return uc.ur.SearchByID(ctx, id)
 }
 
 func (uc *UserUsecase) SearchByUsername(ctx context.Context, username string) (*model.UserModel, error) {
