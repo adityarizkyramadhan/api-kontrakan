@@ -16,7 +16,6 @@ type (
 	}
 
 	CheckTicketRequest struct {
-		IdUser    uint
 		IdHouse   uint
 		Deskripsi string
 	}

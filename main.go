@@ -48,6 +48,13 @@ func main() {
 	groupHouse := r.Group("house")
 	ctrlHouse.Mount(groupHouse)
 
+	//check ticket
+	repoTicket := repository.NewCheckTicketRepository(db)
+	usecaseTicket := usecase.NewCheckTicketUsecase(repoTicket)
+	ctrlTicket := controller.NewCheckTicketController(usecaseTicket)
+	groupTicket := r.Group("ticket")
+	ctrlTicket.Mount(groupTicket)
+
 	r.Run(fmt.Sprintf(":%s", os.Getenv("PORT")))
 
 }
