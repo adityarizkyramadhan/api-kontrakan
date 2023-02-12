@@ -41,6 +41,13 @@ func main() {
 	groupUser := r.Group("user")
 	ctrlUser.Mount(groupUser)
 
+	//house
+	repoHouse := repository.NewHouseRepository(db)
+	usecaseHouse := usecase.NewHouseUsecase(repoHouse)
+	ctrlHouse := controller.NewHouseController(usecaseHouse)
+	groupHouse := r.Group("house")
+	ctrlHouse.Mount(groupHouse)
+
 	r.Run(fmt.Sprintf(":%s", os.Getenv("PORT")))
 
 }

@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"api-kontrakan/middleware"
 	"api-kontrakan/model"
 	"api-kontrakan/usecase"
 	"api-kontrakan/utils"
@@ -33,4 +34,34 @@ func (hc *HouseController) Create(c *gin.Context) {
 		c.JSON(http.StatusUnprocessableEntity, utils.ResponseWhenFail(err.Error()))
 		return
 	}
+
+	if err := hc.hu.CreateHouse(ctx, &houseInput); err != nil {
+		c.JSON(http.StatusInternalServerError, utils.ResponseWhenFail(err.Error()))
+		return
+	}
+
+	c.JSON(http.StatusCreated, utils.ResponseWhenSuccess("success create house", nil))
+}
+
+func (hc *HouseController) FindById(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Second*5)
+	defer cancel()
+
+	c.Request = c.Request.WithContext(ctx)
+
+	id := c.Param("id")
+
+	house, err := hc.hu.FindById(ctx, id)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, utils.ResponseWhenFail(err.Error()))
+		return
+	}
+
+	c.JSON(http.StatusOK, utils.ResponseWhenSuccess("success find by id house", house))
+}
+
+func (hc *HouseController) Mount(rg *gin.RouterGroup) {
+	rg.GET("details/:id", middleware.ValidateJWToken(), hc.FindById)
+	rg.POST("", middleware.ValidateJWToken(), hc.Create)
 }
