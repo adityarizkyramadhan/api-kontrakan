@@ -35,6 +35,7 @@ func (cr *CheckTicketRepository) FindById(ctx context.Context, id uint) (*model.
 func (cr *CheckTicketRepository) FindLastUserStatus(ctx context.Context, idHouse uint) ([]*model.CheckTicketModel, error) {
 	var tickets []*model.CheckTicketModel
 	err := cr.db.
+		WithContext(ctx).
 		Table("check_ticket_models").
 		Select("check_ticket_models.*").
 		Joins("LEFT JOIN (SELECT id_user, MAX(created_at) as created_at FROM check_ticket_models GROUP BY id_user) as t ON check_ticket_models.id_user = t.id_user AND check_ticket_models.created_at = t.created_at").
