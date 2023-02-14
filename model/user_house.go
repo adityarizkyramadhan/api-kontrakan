@@ -10,4 +10,9 @@ type (
 		User    UserModel  `gorm:"foreignkey:IdUser"`
 		House   HouseModel `gorm:"foreignkey:IdHouse"`
 	}
+
+	UserHouseRequest struct {
+		IdUser  uint
+		IdHouse uint
+	}
 )
