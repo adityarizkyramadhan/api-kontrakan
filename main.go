@@ -31,7 +31,7 @@ func main() {
 	r := gin.Default()
 	r.Use(middleware.TimeoutMiddleware())
 	r.GET("health", func(c *gin.Context) {
-		c.JSON(200, utils.ResponseWhenSuccess("success", "deploy health 100% after restar"))
+		c.JSON(200, utils.ResponseWhenSuccess("success", "deploy health 100% after restart"))
 	})
 
 	//user
