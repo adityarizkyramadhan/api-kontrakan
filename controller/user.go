@@ -33,6 +33,10 @@ func (uc *UserController) Register(c *gin.Context) {
 		c.JSON(http.StatusUnprocessableEntity, utils.ResponseWhenFail(err.Error()))
 		return
 	}
+	if err := userInput.Validate(); err != nil {
+		c.JSON(http.StatusBadRequest, utils.ResponseWhenFail(err.Error()))
+		return
+	}
 	token, err := uc.uu.Register(ctx, &userInput)
 	if err != nil {
 		if err.Error() == utils.ErrUniqueUsername.Error() {

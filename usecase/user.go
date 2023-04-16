@@ -23,7 +23,7 @@ func (uc *UserUsecase) Register(ctx context.Context, input *model.UserRequestReg
 	if err == nil && temp != nil {
 		return "", utils.ErrUniqueUsername
 	}
-	hashPassword, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
+	hashPassword, err := bcrypt.GenerateFromPassword([]byte(input.Password), 8)
 	if err != nil {
 		return "", err
 	}

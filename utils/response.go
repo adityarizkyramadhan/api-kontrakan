@@ -21,3 +21,5 @@ func ResponseWhenSuccess(message string, body interface{}) Response {
 		Body:    body,
 	}
 }
+
+

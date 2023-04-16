@@ -1,12 +1,12 @@
 package model
 
-import (
-	"gorm.io/gorm"
-)
+import "time"
 
 type (
 	HouseModel struct {
-		gorm.Model
+		ID           uint   `gorm:"primary_key;auto_increment"`
+		CreatedAt    time.Time `gorm:"autoCreateTime"`
+		UpdatedAt    time.Time `gorm:"autoUpdateTime"`
 		NamaAlamat   string
 		NamaSebutan  string
 		Deskripsi    string

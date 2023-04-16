@@ -40,3 +40,4 @@ func (db Database) validate() error {
 		validation.Field(&db.SupabaseDbName, validation.Required),
 	)
 }
+

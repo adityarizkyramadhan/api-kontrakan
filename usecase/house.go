@@ -34,3 +34,4 @@ func (hu *HouseUsecase) FindById(ctx context.Context, id string) (*model.HouseMo
 
 	return hu.hr.FindById(ctx, uint(idInt))
 }
+
