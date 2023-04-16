@@ -1,10 +1,9 @@
 package model
 
 import (
-	"time"
-
 	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/go-ozzo/ozzo-validation/is"
+	"gorm.io/gorm"
 )
 
 func NewUserModel(ur UserRequestRegister) *UserModel {
@@ -17,9 +16,7 @@ func NewUserModel(ur UserRequestRegister) *UserModel {
 
 type (
 	UserModel struct {
-		ID           uint      `gorm:"primary_key;auto_increment"`
-		CreatedAt    time.Time `gorm:"autoCreateTime"`
-		UpdatedAt    time.Time `gorm:"autoUpdateTime"`
+		gorm.Model
 		Fullname     string
 		Username     string `gorm:"unique"`
 		Password     string

@@ -1,12 +1,10 @@
 package model
 
-import "time"
+import "gorm.io/gorm"
 
 type (
 	CheckTicketModel struct {
-		ID         uint      `gorm:"primary_key;auto_increment"`
-		CreatedAt  time.Time `gorm:"autoCreateTime"`
-		UpdatedAt  time.Time `gorm:"autoUpdateTime"`
+		gorm.Model
 		IdUser     uint
 		IdHouse    uint
 		IsCheckOut bool `gorm:"default:false"`
