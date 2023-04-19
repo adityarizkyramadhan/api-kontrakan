@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/pkg/errors"
 )
 
 type (
@@ -36,6 +37,9 @@ func (hc *HouseController) Create(c *gin.Context) {
 	}
 
 	if err := hc.hu.CreateHouse(ctx, &houseInput); err != nil {
+		if errors.Cause(err) == utils.ErrValidation {
+			c.JSON(http.StatusBadRequest, utils.ResponseWhenFail(err.Error()))
+		}
 		c.JSON(http.StatusInternalServerError, utils.ResponseWhenFail(err.Error()))
 		return
 	}

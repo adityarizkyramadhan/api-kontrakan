@@ -3,6 +3,7 @@ package usecase
 import (
 	"api-kontrakan/model"
 	"api-kontrakan/repository"
+	"api-kontrakan/utils"
 	"context"
 	"strconv"
 )
@@ -18,11 +19,15 @@ func NewHouseUsecase(hr repository.HouseRepositoryImplementation) *HouseUsecase 
 }
 
 func (hu *HouseUsecase) CreateHouse(ctx context.Context, input *model.HouseRequestCreate) error {
+	if err := input.Validate(); err != nil {
+		return utils.ErrValidation
+	}
 	house := &model.HouseModel{
 		NamaAlamat:  input.NamaAlamat,
 		NamaSebutan: input.NamaSebutan,
 		Deskripsi:   input.Deskripsi,
 	}
+
 	return hu.hr.Create(ctx, house)
 }
 
@@ -34,4 +39,3 @@ func (hu *HouseUsecase) FindById(ctx context.Context, id string) (*model.HouseMo
 
 	return hu.hr.FindById(ctx, uint(idInt))
 }
-

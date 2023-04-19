@@ -3,16 +3,22 @@ module api-kontrakan
 go 1.19
 
 require (
+	github.com/gin-contrib/timeout v0.0.3
 	github.com/gin-gonic/gin v1.8.2
 	github.com/go-ozzo/ozzo-validation v3.6.0+incompatible
 	github.com/golang-jwt/jwt/v4 v4.4.3
+	github.com/pkg/errors v0.9.1
+	github.com/stretchr/testify v1.8.1
 	gorm.io/driver/postgres v1.4.6
 	gorm.io/gorm v1.24.5
 )
 
-require golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
-
-require github.com/gin-contrib/timeout v0.0.3
+require (
+	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/stretchr/objx v0.5.0 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
+)
 
 require (
 	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d // indirect
